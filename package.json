@@ -17,5 +17,11 @@
     "url": "https://github.com/DrPollo/Community-Planner-Store/issues"
   },
   "homepage": "https://github.com/DrPollo/Community-Planner-Store#readme",
-  "type":"module"
+  "type": "module",
+  "dependencies": {
+    "pouchdb": "^7.2.1",
+    "pouchdb-adapter-memory": "^7.2.1",
+    "pouchdb-find": "^7.2.1",
+    "uniqid": "^5.2.0"
+  }
 }

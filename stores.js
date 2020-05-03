@@ -63,6 +63,13 @@ const STORES = new Map(Object.entries(
                 id:false,
                 name:"place-logs-master"
             }
+        },
+        viewer:{
+            agents:{
+                from:"http://localhost:5985/agents-logs",
+                id:false,
+                name:"agent-logs"
+            }
         }
     },
 ));
