@@ -51,8 +51,8 @@ const STORES = new Map(Object.entries(
         },
         simulation:{
             agents:{
-                to:"http://localhost:5985/agents-logs",
                 id:false,
+                to:"http://localhost:5985/agent-logs",
                 name:"agent-logs-master"
             },
             area:{
@@ -66,7 +66,7 @@ const STORES = new Map(Object.entries(
         },
         viewer:{
             agents:{
-                from:"http://localhost:5985/agents-logs",
+                from:"http://localhost:5985/agent-logs",
                 id:false,
                 name:"agent-logs"
             }

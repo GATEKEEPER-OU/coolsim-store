@@ -16,9 +16,9 @@ export default class Store{
         if(!type || !STORES.has(type)){
             throw new Error(`Error: unknown store {type}`);
         }
-        // if(id){
-        //     this.id = id;
-        // }
+        if(id){
+            this.id = id;
+        }
 
 
         this.type = type;
@@ -41,7 +41,8 @@ export default class Store{
             this.names.set(section,name);
 
 
-            let db = new PouchDB(name,{adapter: "memory"});
+            let db = new PouchDB(name);
+            // let db = new PouchDB(name,{adapter: "memory"});
 
             // setup connections
             this._connectDB(store,db);

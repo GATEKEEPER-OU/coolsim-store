@@ -9,14 +9,14 @@ let s = new Store("simulation");
 
 
 
-testLoop(100);
+testLoop(5);
 
 async function testLoop(num){
     for(let i = 0; i < num; i++){
         await test();
 
     }
-    a.cleanup();
+    // a.cleanup();
 };
 
 async function test() {
