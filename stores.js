@@ -17,21 +17,12 @@ const STORES = new Map(Object.entries(
                 // to:"agent-logs-master",
                 name:"http://localhost:5985/agent-logs",
                 fields:["date"]
-            },
-            state:{
-                // to:"agents-state-master",
-                name:"http://localhost:5985/agent-state",
-                fields:[]
-            },
+            }
         },
         area:{
             logs:{
                 name:"http://localhost:5985/area-logs",
                 fields:["name","date"]
-            },
-            residents:{
-                name:"http://localhost:5985/area-state",
-                fields:["name"]
             },
             places:{
                 // to:"area-places-master",
@@ -53,24 +44,32 @@ const STORES = new Map(Object.entries(
         simulation:{
             agents:{
                 id:false,
-                to:"http://localhost:5985/agent-logs",
-                name:"agent-logs-master"
+                name:"http://localhost:5985/agent-states",
             },
             area:{
                 id:false,
-                name:"http://localhost:5985/area-logs-master"
-            },
-            place:{
-                id:false,
-                name:"http://localhost:5985/place-logs-master"
+                name:"http://localhost:5985/area-logs"
             }
         },
         viewer:{
-            agents:{
+            agentsLogs:{
                 // from:"http://localhost:5985/agent-logs",
                 id:false,
                 name:"http://localhost:5985/agent-logs"
-            }
+            },
+            agentsStates:{
+                // from:"http://localhost:5985/agent-logs",
+                id:false,
+                name:"http://localhost:5985/agent-states"
+            },
+            areaLogs:{
+                name:"http://localhost:5985/area-logs",
+                fields:["name","date"]
+            },
+            places:{
+                // to:"area-places-master",
+                name:"http://localhost:5985/area-places"
+            },
         }
     },
 ));
