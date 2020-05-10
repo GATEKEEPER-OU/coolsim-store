@@ -13,39 +13,40 @@ const STORES = new Map(Object.entries(
     {
         agent:{
             logs:{
-                to:"agent-logs-master",
-                name:"agent-logs",
+                id:false,
+                // to:"agent-logs-master",
+                name:"http://localhost:5985/agent-logs",
                 fields:["date"]
             },
             state:{
-                to:"agents-state-master",
-                name:"agent-state",
+                // to:"agents-state-master",
+                name:"http://localhost:5985/agent-state",
                 fields:[]
             },
         },
         area:{
             logs:{
-                name:"area-logs",
+                name:"http://localhost:5985/area-logs",
                 fields:["name","date"]
             },
             residents:{
-                name:"area-state",
+                name:"http://localhost:5985/area-state",
                 fields:["name"]
             },
             places:{
-                to:"area-places-master",
-                name:"area-places",
+                // to:"area-places-master",
+                name:"http://localhost:5985/area-places",
                 fields:["name"]
             },
         },
         place:{
             logs:{
-                to:"places-logs-master",
-                name:"place-logs",
+                // to:"places-logs-master",
+                name:"http://localhost:5985/place-logs",
                 fields:["name","date"]
             },
             visits:{
-                name:"place-visits",
+                name:"http://localhost:5985/place-visits",
                 fields:["date"]
             },
         },
@@ -57,18 +58,18 @@ const STORES = new Map(Object.entries(
             },
             area:{
                 id:false,
-                name:"area-logs-master"
+                name:"http://localhost:5985/area-logs-master"
             },
             place:{
                 id:false,
-                name:"place-logs-master"
+                name:"http://localhost:5985/place-logs-master"
             }
         },
         viewer:{
             agents:{
-                from:"http://localhost:5985/agent-logs",
+                // from:"http://localhost:5985/agent-logs",
                 id:false,
-                name:"agent-logs"
+                name:"http://localhost:5985/agent-logs"
             }
         }
     },
