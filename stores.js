@@ -7,16 +7,19 @@
 //          - from: string with the path to the db from which it should get data
 //          - to: string with the path to the db to which it should push data
 //          - sync: string to the path to the db to sync with
-
+//          - id:true, uses the agent id in the db name
+//          - simulation:true uses simulation id in the db name
 
 const STORES = new Map(Object.entries(
     {
         agent:{
             logs:{
-                id:false,
-                // to:"agent-logs-master",
-                name:"http://localhost:5985/agent-logs",
-                fields:["date"]
+                simulation:true,
+                name:"simulation",
+                fields:["date"],
+                selector: {
+                    date: {$exists: true}
+                }
             }
         },
         area:{
@@ -42,13 +45,16 @@ const STORES = new Map(Object.entries(
             },
         },
         simulation:{
-            agents:{
-                id:false,
-                name:"http://localhost:5985/agent-states",
-            },
-            area:{
-                id:false,
-                name:"http://localhost:5985/area-logs"
+            details:{
+                simulation:true,
+                bulkTo:"http://localhost:5985/",
+                name:"simulation",
+                repParams:{
+                    // live:true,
+                    // continuous: true,
+                    // retry:true,
+                    // complete: ()=>console.log("Sim sync done!")
+                }
             }
         },
         viewer:{
