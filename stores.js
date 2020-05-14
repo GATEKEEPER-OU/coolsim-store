@@ -12,68 +12,31 @@
 
 const STORES = new Map(Object.entries(
     {
-        agent:{
-            logs:{
-                simulation:true,
-                name:"simulation",
-                fields:["date"],
-                selector: {
-                    date: {$exists: true}
-                }
-            }
-        },
-        area:{
-            logs:{
-                name:"http://localhost:5985/area-logs",
-                fields:["name","date"]
-            },
-            places:{
-                // to:"area-places-master",
-                name:"http://localhost:5985/area-places",
-                fields:["name"]
-            },
-        },
-        place:{
-            logs:{
-                // to:"places-logs-master",
-                name:"http://localhost:5985/place-logs",
-                fields:["name","date"]
-            },
-            visits:{
-                name:"http://localhost:5985/place-visits",
-                fields:["date"]
-            },
-        },
         simulation:{
             details:{
                 simulation:true,
-                bulkTo:"http://localhost:5985/",
+                to:"http://localhost:5985/",
                 name:"simulation",
                 repParams:{
-                    // live:true,
-                    // continuous: true,
-                    // retry:true,
-                    // complete: ()=>console.log("Sim sync done!")
+                    live:true,
+                    retry:true,
+                    batch_size:100,
+                    batches_limit:5.
+                    // since:"now"
                 }
             }
         },
         viewer:{
             agentsLogs:{
-                // from:"http://localhost:5985/agent-logs",
-                id:false,
                 name:"http://localhost:5985/agent-logs"
             },
             agentsStates:{
-                // from:"http://localhost:5985/agent-logs",
-                id:false,
                 name:"http://localhost:5985/agent-states"
             },
             areaLogs:{
                 name:"http://localhost:5985/area-logs",
-                fields:["name","date"]
             },
             places:{
-                // to:"area-places-master",
                 name:"http://localhost:5985/area-places"
             },
         }
