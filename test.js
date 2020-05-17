@@ -2,8 +2,8 @@ import Store from "./index.js";
 
 
 // test
-let a = new Store({type:"logs",simulation:"123"});
-let s = new Store({type:"details",simulation:"123"});
+let a = new Store({type:"logs",simulation:"sim-123"});
+let s = new Store({type:"details",simulation:"sim-123"});
 
 // console.log(s);
 
@@ -21,14 +21,10 @@ async function testLoop(num){
 
 async function test(i) {
     await save(a, [
-        {day:i*Math.random(),date: "2020-05-02"},
-        {day:i*Math.random(),date: "2020-05-02"},
-        {day:i*Math.random(),date: "2020-05-02"},
-        {day:i*Math.random(),date: "2020-05-02"},
-        {day:i*Math.random(),date: "2020-05-02"},
-        {day:i*Math.random(),date: "2020-05-02"},
+        {day:i,message: "foo"},
+        {day:i,message: "bar"},
         ]);
-
+    await save(s, {day:i,message:"lots of stuff"});
     let agentLogs = await read(a);
     console.log("agent logs",agentLogs);
 

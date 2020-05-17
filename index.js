@@ -150,21 +150,7 @@ export default class Store{
         }
 
     }
-
-    async _disconnectDB(){
-        return new Promise((resolve,reject)=>{
-            if(this.replicationHandler){
-                this.replicationHandler.cancel()
-                    .on("complete", (res)=>resolve(res))
-                    .on("error",(err)=>reject(err))
-            }
-            resolve("nothing to do");
-        })
-    }
-
-
-
-    async _cleanUpDB(params={}){
+    async cleanUp(params={}){
         // console.log("1",params.id && !this.store[section].id && this.store[section].id !== params.id);
         if( params.id && this.id !== params.id ){
             return Promise.resolve("nothing to do");
@@ -179,4 +165,18 @@ export default class Store{
             this._disconnectDB()
         ]);
     }
+    async _disconnectDB(){
+        return new Promise((resolve,reject)=>{
+            if(this.replicationHandler){
+                this.replicationHandler.cancel()
+                    .on("complete", (res)=>resolve(res))
+                    .on("error",(err)=>reject(err))
+            }
+            resolve("nothing to do");
+        })
+    }
+
+
+
+
 }
