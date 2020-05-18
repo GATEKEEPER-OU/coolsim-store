@@ -1,9 +1,11 @@
 // Store
 // it uses pouchdb to synch a memory store with a general database
-import PouchDB from 'pouchdb'
-import Find from 'pouchdb-find'
+import PouchDB from 'pouchdb';
+import Upsert from "pouchdb-upsert";
+import Find from 'pouchdb-find';
 import Memory from "pouchdb-adapter-memory";
 import STORES from "../Bootstrap/Store/index.js";
+PouchDB.plugin(Upsert);
 PouchDB.plugin(Find);
 PouchDB.plugin(Memory);
 
@@ -59,6 +61,19 @@ export default class Store{
     async _save(doc){
         return new Promise((resolve,reject)=>{
             // console.log("saving here 2",store);
+
+            if(doc.id){
+                return this.DB.upsert(doc.id,(doc)=>doc).then( response => {
+                    // console.log("saved 3?",response);
+                    resolve(response);
+                } )
+                    .catch( err => {
+                        // console.error("4",err);
+                        reject(err);
+                    } );
+            }
+
+            // fallback no id provided
             this.DB.post(doc)
                 .then( response => {
                     // console.log("saved 3?",response);
@@ -68,6 +83,7 @@ export default class Store{
                     // console.error("4",err);
                     reject(err);
                 } );
+
 
         });
     }

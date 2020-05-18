@@ -22,6 +22,7 @@
     "pouchdb": "^7.2.1",
     "pouchdb-adapter-memory": "^7.2.1",
     "pouchdb-find": "^7.2.1",
+    "pouchdb-upsert": "^2.2.0",
     "promise-all-settled": "^1.1.0"
   }
 }

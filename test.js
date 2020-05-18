@@ -1,35 +1,40 @@
 import Store from "./index.js";
 
 
+
 // test
-let a = new Store({type:"logs",simulation:"sim-123"});
-let s = new Store({type:"details",simulation:"sim-123"});
+// let a = new Store({type:"logs",simulation:"sim-123"});
+let s = new Store({type:"simulations"});
 
 // console.log(s);
 
 // console.log("sadsad",s);
 
-testLoop(5);
 
-async function testLoop(num){
-    for(let i = 0; i < num; i++){
-        await test(i);
+let i = 0, stop = 1000;
+testLoop();
+async function testLoop(){
+        console.log("saving",i);
+        await test(i++);
 
-    }
+        if(i>=stop){return}
+        setTimeout(testLoop,1000)
     // await a.cleanUp({simulation:"123"});
 };
 
 async function test(i) {
-    await save(a, [
-        {day:i,message: "foo"},
-        {day:i,message: "bar"},
-        ]);
-    await save(s, {day:i,message:"lots of stuff"});
-    let agentLogs = await read(a);
-    console.log("agent logs",agentLogs);
+    // await save(a, [
+    //     {day:i,message: "foo"},
+    //     {day:i,message: "bar"},
+    //     ]);
+    await save(s, {id:i+"-stuff", day:i,message:"lots of stuff"});
+    // let agentLogs = await read(a);
+    // console.log("agent logs",agentLogs);
 
-    let simLogs = await read(s);
-    console.log("simulation details",simLogs);
+    // let simLogs = await read(s);
+    // console.log("simulation details",simLogs);
+
+    // await s.cleanUp();
 }
 
 
