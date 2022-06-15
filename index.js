@@ -4,7 +4,7 @@ import PouchDB from 'pouchdb';
 import Upsert from "pouchdb-upsert";
 import Find from 'pouchdb-find';
 import Memory from "pouchdb-adapter-memory";
-import STORES from "../Bootstrap/Store/index.js";
+import STORES from "../coolsim-configuration/Store/index.js";
 PouchDB.plugin(Upsert);
 PouchDB.plugin(Find);
 PouchDB.plugin(Memory);
@@ -107,8 +107,8 @@ export default class Store{
 
         let name = this._dbName(params);
 
-        let db = new PouchDB(name);
-        // let db = new PouchDB(name,{adapter: "memory"});
+        // let db = new PouchDB(name);
+        let db = new PouchDB(name,{adapter: "memory"});
 
         // setup connections
         this._connectDB(params,db);

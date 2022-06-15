@@ -1,5 +1,5 @@
 {
-  "name": "Store",
+  "name": "coolsim-store",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DrPollo/Community-Planner-Store.git"
+    "url": "git+https://github.com/GATEKEEPER-OU/coolsim-store.git.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/DrPollo/Community-Planner-Store/issues"
+    "url": "https://github.com/GATEKEEPER-OU/coolsim-store/issues"
   },
-  "homepage": "https://github.com/DrPollo/Community-Planner-Store#readme",
+  "homepage": "https://github.com/GATEKEEPER-OU/coolsim-store#readme",
   "type": "module",
   "dependencies": {
     "pouchdb": "^7.2.1",
