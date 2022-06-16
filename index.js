@@ -4,7 +4,7 @@ import PouchDB from 'pouchdb';
 import Upsert from "pouchdb-upsert";
 import Find from 'pouchdb-find';
 import Memory from "pouchdb-adapter-memory";
-import STORES from "../coolsim-configuration/Store/index.js";
+import STORES from "../configuration/Store/index.js";
 PouchDB.plugin(Upsert);
 PouchDB.plugin(Find);
 PouchDB.plugin(Memory);
