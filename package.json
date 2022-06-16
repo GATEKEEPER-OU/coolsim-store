@@ -19,10 +19,12 @@
   "homepage": "https://github.com/GATEKEEPER-OU/coolsim-store#readme",
   "type": "module",
   "dependencies": {
+    "fs": "^0.0.1-security",
     "pouchdb": "^7.2.1",
     "pouchdb-adapter-memory": "^7.2.1",
     "pouchdb-find": "^7.2.1",
     "pouchdb-upsert": "^2.2.0",
-    "promise-all-settled": "^1.1.0"
+    "promise-all-settled": "^1.1.0",
+    "uniqid": "^5.4.0"
   }
 }

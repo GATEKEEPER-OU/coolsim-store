@@ -38,9 +38,9 @@ async function test(i) {
 }
 
 
-async function save(db,doc){
+async function save(s,doc){
     return new Promise((resolve,reject)=>{
-        db.save(doc)
+        s.save(doc)
             .then(val=>{
                 // console.log(val);
                 resolve(val);
@@ -52,9 +52,9 @@ async function save(db,doc){
     });
 }
 
-async function read(db){
+async function read(s){
     return new Promise((resolve,reject)=>{
-        db.read()
+        s.read()
             .then(val=>{
                 resolve(val);
         })
