@@ -17,21 +17,22 @@ export default class Store{
         this.id = params.id;
         this.name = this._generateName(params);
         this.mode = STORES.get(params.type).mode;
-        // console.log("store params",this.name,this.type,this.mode);
+        this.format = STORES.get(params.type).format;
+        // console.log("store params",this.name,this.type,this.mode,this.format);
         switch(this.mode){
             case "file":
-                console.log("instantiating file mode");
-                this._DB = new FileStore(this.name);
+                console.log("instantiating file mode",this.format);
+                this._DB = new FileStore(this.name,this.format);
                 break;
-            default: 
-                this._DB = new DBStore(this.name);
+            default:
+                this._DB = new DBStore(this.name,this.mode,this.format);
         }
     }
     get DB(){return this._DB;}
 
-    async read(){
+    async read(params){
         if(!this.DB){return Promise.reject("DB must be initialized first!")}
-
+        // @todo what from where?
         return this.DB.read();
     }
 
@@ -39,11 +40,17 @@ export default class Store{
         if(!doc){
             return Promise.reject(`ERROR, nothing to save`);
         }
+
+        // @todo array of adapters
+        // mapping between adapters and output formats
+        // e.g. FHIR > file, default > db
+
         return this.DB.save(doc);
     }
 
 
     async cleanUp(params={}){
+        // @todo cleanup of what adapter?
         return this.DB.cleanUp(params);
     }
 

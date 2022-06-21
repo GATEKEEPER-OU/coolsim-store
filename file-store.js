@@ -1,13 +1,27 @@
 import * as fs from 'fs';
 import uniqid from "uniqid";
+import FHIRTrasformer from "./fhir-transformer.js";
 
 export default class FileStore {
     DIR = "./output";
     BASENAME = "diary-";
-    constructor(name){
+    constructor(name, format="default"){
         if(!name ){
             throw new Error(`Error: missing mandatory name param`);
         }
+        switch(format){
+            case "FHIR":
+            case "fhir":
+                console.log("using FHIR format");
+                this._converterHelper = new FHIRTrasformer();
+            break;
+            default:
+                this._converterHelper = {
+                    convert: (doc) => doc
+                };
+        }
+
+
         // init main output folder
         // console.log("dir",this.DIR,"dir exists?",fs.existsSync(this.DIR))
         if (!fs.existsSync(this.DIR)){
@@ -20,7 +34,7 @@ export default class FileStore {
             fs.mkdirSync(this._path);
             // console.log("making a dir",this._path);
         }
-    }   
+    }
 
     async read(){
         // return this._path
@@ -49,17 +63,22 @@ export default class FileStore {
         });
     }
 
-    async _saveFile(doc){
+    async _saveFile(raw){
+        if(!raw){
+            console.log(raw)
+            throw `document is mandator, got ${raw}`;
+        }
+        let fileName = this._generateFileName(raw);
+        let filePath = this._path.concat("/",fileName,".json");
+        // conversion in FHIR or other formats
+        let doc = this._converterHelper.convert(raw);
         let data = JSON.stringify(doc);
-        let fileName = this._generateFileName(doc);
-        let filePath = this._path.concat("/",fileName,".json"); 
-        
         return fs.writeFileSync(filePath, data);
     }
-    
+
     _generateFileName(doc){
         let fileName = this.BASENAME;
-        
+
         if(doc.day){
             fileName = fileName.concat("day-",doc.day,"-");
         }

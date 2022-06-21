@@ -15,7 +15,8 @@ export default class DBStore{
             batches_limit:5,
             since:"now"
         }
-    constructor(name,adapter = "memory"){
+    // @todo support to format
+    constructor(name,adapter = "memory",format){
         if(!name ){
             throw new Error(`Error: missing mandatory name param`);
         }
@@ -24,7 +25,7 @@ export default class DBStore{
         // to do manages the synch and modalities of PouchDB
         // this._connectDB(params,this.DB);
     }
-    
+
     async read(){
         if(!this.DB){return Promise.reject("DB must be initialized first!")}
 
@@ -48,7 +49,6 @@ export default class DBStore{
         if(Array.isArray(doc)){return this._saveBulk(doc)}
 
         // save
-        // return this.DB.save(doc);
         return this._save(doc);
     }
 
