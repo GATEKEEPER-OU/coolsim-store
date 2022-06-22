@@ -115,11 +115,10 @@ export default class FHIRTrasformer {
     });
   }
 
-
   _questionnaires(id, date, agent, stats) {
     if(!stats || !Object.keys(stats)){
       console.log(stats);
-      throw `stats is mandatory and must be an object`
+      throw `stats is mandatory and must be an object`;
     }
     // if not defined, return an array of observations for each activity of daily living
     return Object.keys(stats).map(statName => {
@@ -130,7 +129,7 @@ export default class FHIRTrasformer {
       return {
         "resourceType": "QuestionnaireResponse",
         "id": id,
-        "text": `What is your ${statName} in float between 0 and 1 with 0 beung horrible and 1 being top?`,
+        "text": `What is your ${statName} state?`,
         "recordedDate": date,
         "status":"completed",
         "identifier":[
