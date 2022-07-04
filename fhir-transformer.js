@@ -3,11 +3,10 @@ import dayjs from "dayjs";
 import Utils from "../utilities/index.js";
 
 export default class FHIRTrasformer {
-  SYSTEM = "identifier=https://github.com/GATEKEEPER-OU/coolsim/";
+  GK_SYSTEM = "https://github.com/GATEKEEPER-OU/coolsim/";
 
   constructor(date = null) {
-    // @todo dates
-    this._startDate = dayjs(date);
+    this._startDate = date === null ? dayjs() : dayjs(date);
   }
 
   convert(doc) {
@@ -44,18 +43,21 @@ export default class FHIRTrasformer {
   }
 
   _person(id, doc) {
-    let coding = this._getCode(doc.agent,"patient")
-    // return person entry
-    return {
-      "fullUrl": id,
+    // let coding = this._getCode(doc.agent, "patient")
+    const identifier = this._getIdentifier(
+      `identifier=${this.GK_SYSTEM}patient`,
+      id // value
+    );
+    return this._entry(id,{
       "resourceType": "Patient",
-      "identifier": [ coding ],
+      "identifier": [ identifier ],
       "active": true,
       "gender": doc.gender,
       "age": doc.age
-    };
+    })
   }
 
+  // Action ?== Observation
   _actions(id, date, agent, actions) {
     if(!actions || !Object.keys(actions)){
       console.log(actions);
@@ -67,11 +69,10 @@ export default class FHIRTrasformer {
       const duration = actions[actionName];
       const codingActivity = this._getCode(actionName, "activity");
       const codingUnit = this._getCode(duration, "unit/h");
-      return {
+      return this._entry(id, {
         "resourceType": "Observation",
-        "id":id,
         "effectiveDateTime": date,
-        "code": [codingActivity],
+        "code": [ codingActivity ],
         "component": [
           {
             "code": [codingActivity],
@@ -81,12 +82,12 @@ export default class FHIRTrasformer {
         "status": "preliminary",
         "subject": {
           "display": agent,
-          "reference": id
+          // "reference": id // @todo should be agentId ???
+          "reference": agent,
         }
-      }
+      });
     });
   }
-
 
   _conditions(id, date, agent, conditions) {
     if(!conditions || !Object.keys(conditions)){
@@ -101,7 +102,7 @@ export default class FHIRTrasformer {
       // console.log("codingStage",condition.status);
       const codingStage = this._getCode(condition.status, "condition_stage");
 
-      return {
+      return this._entry(id, {
         "resourceType": "Condition",
         "recordedDate": date,
         "severity": condition.severity,
@@ -109,9 +110,10 @@ export default class FHIRTrasformer {
         "stage": codingStage,
         "subject": {
           "display": agent,
-          "reference": id
+          // "reference": id // @todo should be agentId ???
+          "reference": agent,
         }
-      }
+      })
     });
   }
 
@@ -126,15 +128,15 @@ export default class FHIRTrasformer {
       const codingSurvey = this._getCode(statName, "questionnaire");
       const severityLevel = Utils.rate.rateToSeverity(stat.severity)
       let codingAnswer = this._getCode(severityLevel, statName+"_state/severity_level");
-      return {
+      return this._entry(id, {
         "resourceType": "QuestionnaireResponse",
-        "id": id,
         "text": `What is your ${statName} state?`,
         "recordedDate": date,
         "status":"completed",
         "identifier":[
           codingSurvey
         ],
+        // @todo check with Alessio
         "contained": [
           {
             "resourceType": "Patient",
@@ -147,6 +149,7 @@ export default class FHIRTrasformer {
             ]
           }
         ],
+        // -------------------------
         "item":[
           {
             "linkId": "1",
@@ -157,12 +160,28 @@ export default class FHIRTrasformer {
             ]
           }
         ]
-      }
+      })
     });
   }
 
+  _entry(id, resource) {
+    return {
+      fullUrl: id,
+      // request: {}, // @todos
+      resource
+    };
+  }
+
+  // @todo
+  _getIdentifier(system, value) {
+    return {
+      system,
+      value
+    }
+  }
+
   // retrieves or generates a coding system in FHIR format
-  _getCode(term,type = "element") {
+  _getCode(term, type = "element") {
     // @todo if coding is defined return
 
     // if coding is not defined, generates a coding
@@ -172,9 +191,9 @@ export default class FHIRTrasformer {
     }
     // console.log("term",term);
     return {
-      "code": term.toString().trim().toLowerCase().replaceAll(" ", "-"),
-      "display": term,
-      "system": this.SYSTEM+type
+      code:    term.toString().trim().toLowerCase().replaceAll(" ", "-"),
+      display: term,
+      system:  this.GK_SYSTEM + type
     }
   }
 }
