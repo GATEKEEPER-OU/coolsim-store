@@ -48,12 +48,13 @@ export default class FHIRTrasformer {
       `identifier=${this.GK_SYSTEM}patient`,
       id // value
     );
-    return this._entry(id,{
+    return this._entry(id, {
       "resourceType": "Patient",
       "identifier": [ identifier ],
       "active": true,
       "gender": doc.gender,
-      "age": doc.age
+      // "age": doc.age
+      // @todo extend with age
     })
   }
 
@@ -137,19 +138,20 @@ export default class FHIRTrasformer {
           codingSurvey
         ],
         // @todo check with Alessio
-        "contained": [
-          {
-            "resourceType": "Patient",
-            "id": id,
-            "identifier": [
-              {
-                "display": agent,
-                "reference": id
-              }
-            ]
-          }
-        ],
-        // -------------------------
+        // "contained": [
+        //   // this._person(...)
+        //   {
+        //     "resourceType": "Patient",
+        //     "id": id,
+        //     "identifier": [
+        //       {
+        //         "display": agent,
+        //         "reference": id
+        //       }
+        //     ]
+        //   }
+        // ],
+        // // -------------------------
         "item":[
           {
             "linkId": "1",
